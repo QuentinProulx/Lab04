@@ -1,0 +1,11 @@
+.button {
+    -fx-font-size: 108px;
+    -fx-text-fill: #AA4A44;
+    -fx-font-weight: bold;
+}
+
+#label-error {
+    -fx-font-size: 108px;
+    -fx-text-fill: #AA4A44;
+    -fx-font-weight: bold;
+}
