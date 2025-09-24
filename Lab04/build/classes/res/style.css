@@ -1,0 +1,25 @@
+.label {
+    -fx-text-background-color: white;
+    -fx-font-family: "Comic Sans MS", "Comic Sans", cursive;
+    -fx-font-size: 15px;
+}
+
+.button {
+    -fx-font-family: "Comic Sans MS", "Comic Sans", cursive;
+    -fx-background-color: white;
+}
+
+.text-field {
+    -fx-font-family: "Comic Sans MS", "Comic Sans", cursive;
+    -fx-background-color: red;
+    -fx-font-size: 15px;
+}
+
+.root {
+    -fx-background-color: black;
+}
+
+#errorLabel {
+    -fx-text-background-color: red;
+    -fx-font-size: 18px;
+}

@@ -21,8 +21,7 @@ import javafx.stage.Stage;
 public class Lab04 extends Application {
     int iterator = 0;
     double[] info = new double[8];
-    String[] questions = {"Number of days on the trip",
-    "Amount of airfare, if any",
+    String[] questions = {"Amount of airfare, if any",
     "Amount of car rental fees, if any",
     "Number of miles driven, if a private vehicle was used",
     "Amount of parking fees, if any",
@@ -54,6 +53,9 @@ public class Lab04 extends Application {
     
     @Override
     public void start(Stage stage) {
+        scene.getStylesheets().add("res/style.css");
+        errorMessage.setId("errorLabel");
+        
         textField.setMaxWidth(150);
         
         button.setOnMouseClicked(e -> {
@@ -61,21 +63,27 @@ public class Lab04 extends Application {
             
             try {
                 num = Double.parseDouble(textField.getText());
+                textField.setText("");
                 
                 if (iterator < 7) {
-                    errorMessage.setText("");
-                    textField.setText("");
-                    
-                    info[iterator] = num;
-                    label.setText(questions[iterator + 1]);
-                    iterator++;
-                } else {
-                    info[0] = Math.round(info[0]);
-                    info[3] = Math.round(info[3]);
-                    
-                    displayInfo();
+                    label.setText(questions[iterator]);
                 }
-                
+                if (num >= 0) {
+                    if (num >= 0 && iterator <= 7) {
+                        errorMessage.setText("");
+                    
+                        info[iterator] = num;
+                        iterator++;
+                    }
+                    if (iterator == 8) {
+                        info[0] = Math.floor(info[0]);
+                        info[3] = Math.round(info[3]);
+                    
+                        displayInfo();
+                    }
+                } else {
+                    errorMessage.setText("Cannot input a negative number");
+                }
             } catch (NumberFormatException m) {
                 errorMessage.setText("TextField must contain ONLY numbers");
             }
@@ -120,16 +128,23 @@ public class Lab04 extends Application {
         gridPane.add(new Label(conclusions[2]), 0, 2);
         gridPane.add(new Label(conclusions[3]), 0, 3);
         
-        double allowableExpenses = info[0] * 10 + info[0] * info[0] * 20 + info[0] * 95;
-        double actualExpenses = info[0] * ((info[4] >= 10) ? 10 : info[4]) +
-                info[0] * ((info[5] >= 20) ? 20 : info[5]) +
+        double parkingFeesPerDay = info[4] / info[0];
+        double taxiChargesPerDay = info[5] / info[0];
+        
+        double allowableExpenses = info[0] * 10 + info[0] * 20 + info[0] * 95;
+        double actualExpenses = info[0] * ((parkingFeesPerDay >= 10) ? 10 : parkingFeesPerDay) +
+                info[0] * ((taxiChargesPerDay >= 20) ? 20 : taxiChargesPerDay) +
                 info[0] * ((info[7] >= 95) ? 95 : info[7]);
-        double toPay = info[1] + info[2] + info[4] + info[5] + info[6] + info[7];
+        double toPay = info[1] + info[2] + info[4] + info[5] + info[6] + info[7] * info[0];
         double reimburses = info[0] * 37 + actualExpenses + 0.27 * info[3];
         
-        gridPane.add(new Label("" + toPay), 1, 0);
-        gridPane.add(new Label("" + allowableExpenses), 1, 1);
-        gridPane.add(new Label("" + (toPay - reimburses)), 1, 2);
-        gridPane.add(new Label("" + actualExpenses), 1, 3);
+        System.out.println(info[0]);
+        System.out.println(info[7]);
+        System.out.println(actualExpenses);
+        
+        gridPane.add(new Label("$" + toPay), 1, 0);
+        gridPane.add(new Label("$" + allowableExpenses), 1, 1);
+        gridPane.add(new Label("$" + (toPay - reimburses)), 1, 2);
+        gridPane.add(new Label("$" + actualExpenses), 1, 3);
     }
 }
