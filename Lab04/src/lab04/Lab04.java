@@ -33,7 +33,7 @@ public class Lab04 extends Application {
     String[] conclusions = {"1. Total expenses: ",
     "2. Total allowable expenses: ",
     "3. Excess that must be paid:",
-    "3. Amount saved: "};
+    "4. Amount saved: "};
     
     Label label = new Label("Enter number of days on the trip");
     TextField textField = new TextField();
@@ -70,6 +70,9 @@ public class Lab04 extends Application {
                     label.setText(questions[iterator + 1]);
                     iterator++;
                 } else {
+                    info[0] = Math.round(info[0]);
+                    info[3] = Math.round(info[3]);
+                    
                     displayInfo();
                 }
                 
@@ -116,5 +119,17 @@ public class Lab04 extends Application {
         gridPane.add(new Label(conclusions[1]), 0, 1);
         gridPane.add(new Label(conclusions[2]), 0, 2);
         gridPane.add(new Label(conclusions[3]), 0, 3);
+        
+        double allowableExpenses = info[0] * 10 + info[0] * info[0] * 20 + info[0] * 95;
+        double actualExpenses = info[0] * ((info[4] >= 10) ? 10 : info[4]) +
+                info[0] * ((info[5] >= 20) ? 20 : info[5]) +
+                info[0] * ((info[7] >= 95) ? 95 : info[7]);
+        double toPay = info[1] + info[2] + info[4] + info[5] + info[6] + info[7];
+        double reimburses = info[0] * 37 + actualExpenses + 0.27 * info[3];
+        
+        gridPane.add(new Label("" + toPay), 1, 0);
+        gridPane.add(new Label("" + allowableExpenses), 1, 1);
+        gridPane.add(new Label("" + (toPay - reimburses)), 1, 2);
+        gridPane.add(new Label("" + actualExpenses), 1, 3);
     }
 }
