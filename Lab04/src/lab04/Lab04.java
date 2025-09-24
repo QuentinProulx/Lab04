@@ -15,13 +15,15 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 /**
- *
+ * Quentin Proulx
+ * https://github.com/QuentinProulx/Lab4
  * @author 6324569
  */
 public class Lab04 extends Application {
     int iterator = 0;
-    double[] info = new double[8];
-    String[] questions = {"Amount of airfare, if any",
+    
+    double[] info = new double[8]; // Stores information given by the user
+    String[] questions = {"Amount of airfare, if any", // Stores questions to ask the user
     "Amount of car rental fees, if any",
     "Number of miles driven, if a private vehicle was used",
     "Amount of parking fees, if any",
@@ -29,7 +31,7 @@ public class Lab04 extends Application {
     "Conference or seminar registration fees, if any",
     "Lodging charges, per night"};
     
-    String[] conclusions = {"1. Total expenses: ",
+    String[] conclusions = {"1. Total expenses: ", // Stores the conclusions' text
     "2. Total allowable expenses: ",
     "3. Excess that must be paid:",
     "4. Amount saved: "};
@@ -61,7 +63,10 @@ public class Lab04 extends Application {
         button.setOnMouseClicked(e -> {
             double num = 0;
             
+            // Checks to see if user entered number via parseint
             try {
+                // Iterates through numbers 0 - 7 to set the info array
+                // Uses the iteration to set the text using the questions array and conclusions array
                 num = Double.parseDouble(textField.getText());
                 textField.setText("");
                 
@@ -76,15 +81,18 @@ public class Lab04 extends Application {
                         iterator++;
                     }
                     if (iterator == 8) {
+                        // Rounds the numbers that aren't decimals
                         info[0] = Math.floor(info[0]);
                         info[3] = Math.round(info[3]);
                     
                         displayInfo();
                     }
                 } else {
+                    // Sets error message when number is below 0
                     errorMessage.setText("Cannot input a negative number");
                 }
             } catch (NumberFormatException m) {
+                // Sets error message when not number
                 errorMessage.setText("TextField must contain ONLY numbers");
             }
         });
@@ -113,8 +121,9 @@ public class Lab04 extends Application {
         stage.show();
     }
     
+    // Displays the conclusion after all the info is submitted
     private void displayInfo() {
-        
+        // Makes question nodes invisible
         for (int i = 0; i < 4; i++) {
             for (Node node : gridPane.getChildren()) {
                 if (GridPane.getColumnIndex(node) == i) {
@@ -123,6 +132,7 @@ public class Lab04 extends Application {
             }
         }
         
+        // Adds conclusion nodes
         gridPane.add(new Label(conclusions[0]), 0, 0);
         gridPane.add(new Label(conclusions[1]), 0, 1);
         gridPane.add(new Label(conclusions[2]), 0, 2);
@@ -137,10 +147,6 @@ public class Lab04 extends Application {
                 info[0] * ((info[7] >= 95) ? 95 : info[7]);
         double toPay = info[1] + info[2] + info[4] + info[5] + info[6] + info[7] * info[0];
         double reimburses = info[0] * 37 + actualExpenses + 0.27 * info[3];
-        
-        System.out.println(info[0]);
-        System.out.println(info[7]);
-        System.out.println(actualExpenses);
         
         gridPane.add(new Label("$" + toPay), 1, 0);
         gridPane.add(new Label("$" + allowableExpenses), 1, 1);
