@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -18,7 +19,21 @@ import javafx.stage.Stage;
  * @author 6324569
  */
 public class Lab04 extends Application {
+    int iterator = 0;
     double[] info = new double[8];
+    String[] questions = {"Number of days on the trip",
+    "Amount of airfare, if any",
+    "Amount of car rental fees, if any",
+    "Number of miles driven, if a private vehicle was used",
+    "Amount of parking fees, if any",
+    "Amount of taxi charges, if any",
+    "Conference or seminar registration fees, if any",
+    "Lodging charges, per night"};
+    
+    String[] conclusions = {"1. Total expenses: ",
+    "2. Total allowable expenses: ",
+    "3. Excess that must be paid:",
+    "3. Amount saved: "};
     
     Label label = new Label("Enter number of days on the trip");
     TextField textField = new TextField();
@@ -46,6 +61,18 @@ public class Lab04 extends Application {
             
             try {
                 num = Double.parseDouble(textField.getText());
+                
+                if (iterator < 7) {
+                    errorMessage.setText("");
+                    textField.setText("");
+                    
+                    info[iterator] = num;
+                    label.setText(questions[iterator + 1]);
+                    iterator++;
+                } else {
+                    displayInfo();
+                }
+                
             } catch (NumberFormatException m) {
                 errorMessage.setText("TextField must contain ONLY numbers");
             }
@@ -75,4 +102,19 @@ public class Lab04 extends Application {
         stage.show();
     }
     
+    private void displayInfo() {
+        
+        for (int i = 0; i < 4; i++) {
+            for (Node node : gridPane.getChildren()) {
+                if (GridPane.getColumnIndex(node) == i) {
+                    node.setVisible(false);
+                }
+            }
+        }
+        
+        gridPane.add(new Label(conclusions[0]), 0, 0);
+        gridPane.add(new Label(conclusions[1]), 0, 1);
+        gridPane.add(new Label(conclusions[2]), 0, 2);
+        gridPane.add(new Label(conclusions[3]), 0, 3);
+    }
 }
